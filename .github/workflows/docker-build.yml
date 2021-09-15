@@ -2,8 +2,7 @@ name: GHC Xplat Image
 
 on:
   push:
-    branches:
-      - [ main ]
+    branches: [ main ]
 env:
   GHC_VER: '8.10.4'
 jobs:
