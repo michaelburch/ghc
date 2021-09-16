@@ -20,7 +20,9 @@ RUN curl -sSLO https://downloads.haskell.org/~ghc/${GHC_VER}/ghc-${GHC_VER}-src.
     && if [ $(uname -m) = "aarch64" ]; then \
     # Disable OFD locking on aarch64
     # https://gitlab.haskell.org/ghc/ghc/-/issues/17918
-    sed -i -e 's/HAVE_OFD_LOCKING], \[1]/HAVE_OFD_LOCKING], \[0]/g' libraries/base/configure.ac; fi \
+    cd libraries/base; \
+    sed -i -e 's/HAVE_OFD_LOCKING], \[1]/HAVE_OFD_LOCKING], \[0]/g' configure.ac; \
+    autoreconf; cd ../../; fi \
     && cp mk/build.mk.sample mk/build.mk \
     && echo 'BuildFlavour=quick-no_profiled_libs' >> mk/build.mk \
     && echo 'BeConservative=YES' >> mk/build.mk \
