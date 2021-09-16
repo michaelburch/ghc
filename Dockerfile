@@ -29,6 +29,6 @@ RUN curl -sSLO https://downloads.haskell.org/~ghc/${GHC_VER}/ghc-${GHC_VER}-src.
     && autoreconf \
     && ./configure --disable-ld-override LD=ld.gold \
     # See https://unix.stackexchange.com/questions/519092/what-is-the-logic-of-using-nproc-1-in-make-command
-    && make -j$((`nproc`+1)) \
+    && make -j$((`nproc`-1)) \
     # Produce a binary distribution
     && make binary-dist 
