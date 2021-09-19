@@ -1,3 +1,15 @@
+FROM ubuntu:20.04 as build
+ARG GHC_VER=8.10.4
+ARG GHC_FLAVOR=devel2-llvm
+ARG CABAL_VER=3.4.0.0
+ENV DEBIAN_FRONTEND=noninteractive
+# Install dependencies 
+RUN apt update -y \
+    && apt upgrade -y \
+    && apt install build-essential git autoconf python3 libgmp-dev libncurses-dev \
+    curl wget alex happy libnuma-dev xutils-dev llvm-9 -y \
+    && apt-get clean
+
 WORKDIR /src
     # Build GHC from source 
 RUN apt install -y ghc \
@@ -28,11 +40,13 @@ RUN if [ $(uname -m) = "aarch64" ]; then \
       wget -q https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VER}/cabal-install-${CABAL_VER}-aarch64-ubuntu-18.04.tar.xz \
     && tar -xf cabal-install-${CABAL_VER}-aarch64-ubuntu-18.04.tar.xz; \
     elif [ $(uname -m) = "x86_64" ]; then \
-      wget -q https://downloads.haskell.org/~cabal/cabal-install-${CABAL_VER}/cabal-install-${CABAL_VER}-x86_64-ubuntu-16.04.tar.xz \
+      wget -q https://downloads.haskell.org/~cabal/cabal-install-${CABAL_}/cabal-install-${CABAL_VER}-x86_64-ubuntu-16.04.tar.xz \
     && tar -xf cabal-install-${CABAL_VER}-x86_64-ubuntu-16.04.tar.xz; \
     fi \
     && mv cabal /usr/local/bin/ && rm *.xz \
     && cabal --version
 
 WORKDIR /
+
+
 
